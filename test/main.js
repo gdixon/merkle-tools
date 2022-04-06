@@ -7,9 +7,6 @@ var MerkleTools = require('../merkletools.js')
 var bLeft = Buffer.from('a292780cc748697cb499fdcc8cb89d835609f11e502281dfe3f6690b1cc23dcb', 'hex')
 var bRight = Buffer.from('cb4990b9a8936bbc137ddeb6dcab4620897b099a450ecdc5f3e86ef4b3a7135c', 'hex')
 var mRoot = crypto.createHash('sha256').update(Buffer.concat([bLeft, bRight])).digest()
-var bLeftmd5 = Buffer.from('0cc175b9c0f1b6a831c399e269772661', 'hex')
-var bRightmd5 = Buffer.from('92eb5ffee6ae2fec3ad71c777531578f', 'hex')
-var mRootmd5 = crypto.createHash('md5').update(Buffer.concat([bLeftmd5, bRightmd5])).digest()
 
 describe('Test basic functions', function () {
   describe('make tree with no leaves', function () {
@@ -269,17 +266,6 @@ describe('Test basic functions', function () {
     })
   })
 
-  describe('make tree using md5', function () {
-    var merkleTools = new MerkleTools(
-      { hashType: 'md5' })
-    merkleTools.addLeaves([bLeftmd5, bRightmd5])
-    merkleTools.makeTree()
-
-    it('merkle root value should be correct', function () {
-      assert.equal(merkleTools.getMerkleRoot().toString('hex'), mRootmd5.toString('hex'))
-    })
-  })
-
   describe('proof left node', function () {
     var merkleTools = new MerkleTools()
     merkleTools.addLeaf(bLeft)
@@ -424,10 +410,9 @@ describe('Test basic functions', function () {
     })
   })
 })
-
 describe('Test other hash functions', function () {
   describe('make SHA224 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA224' })
+    var merkleTools = new MerkleTools({ hashType: 'sha224' })
     merkleTools.addLeaves([
       '90a3ed9e32b2aaf4c61c410eb925426119e1a9dc53d4286ade99a809',
       '35f757ad7f998eb6dd3dd1cd3b5c6de97348b84a951f13de25355177'
@@ -446,7 +431,7 @@ describe('Test other hash functions', function () {
   })
 
   describe('make SHA256 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA256' })
+    var merkleTools = new MerkleTools({ hashType: 'sha256' })
     merkleTools.addLeaves([
       '1516f000de6cff5c8c63eef081ebcec2ad2fdcf7034db16045d024a90341e07d',
       'e20af19f85f265579ead2578859bf089c92b76a048606983ad83f27ba8f32f1a'
@@ -465,7 +450,7 @@ describe('Test other hash functions', function () {
   })
 
   describe('make SHA384 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA384' })
+    var merkleTools = new MerkleTools({ hashType: 'sha384' })
     merkleTools.addLeaves([
       '84ae8c6367d64899aef44a951edfa4833378b9e213f916c5eb8492cc37cb951c726e334dace7dbe4bb1dc80c1efe33d0',
       '368c89a00446010def75ad7b179cea9a3d24f8cbb7e2755a28638d194809e7b614eb45453665032860b6c1a135fb6e8b'
@@ -484,7 +469,7 @@ describe('Test other hash functions', function () {
   })
 
   describe('make SHA512 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA512' })
+    var merkleTools = new MerkleTools({ hashType: 'sha512' })
     merkleTools.addLeaves([
       'c0a8907588c1da716ce31cbef05da1a65986ec23afb75cd42327634dd53d754be6c00a22d6862a42be5f51187a8dff695c530a797f7704e4eb4b473a14ab416e',
       'df1e07eccb2a2d4e1b30d11e646ba13ddc426c1aefbefcff3639405762f216fdcc40a684f3d1855e6d465f99fd9547e53fa8a485f18649fedec5448b45963976'
@@ -502,79 +487,4 @@ describe('Test other hash functions', function () {
     })
   })
 
-  describe('make SHA3-224 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA3-224' })
-    merkleTools.addLeaves([
-      '6ed712b9472b671fd70bb950dc4ccfce197c92a7969f6bc2aa6b6d9f',
-      '08db5633d406804d044a3e67683e179b5ee51249ed2139c239d1e65a'
-    ])
-    merkleTools.makeTree()
-
-    it('merkle root value should be correct', function () {
-      assert.equal(merkleTools.getMerkleRoot().toString('hex'), '674bc9f53d5c666174cdd3ccb9df04768dfb7759655e7d937aef0c3a')
-    })
-    it('proof array should be correct', function () {
-      assert.equal(merkleTools.getProof(0)[0].right, '08db5633d406804d044a3e67683e179b5ee51249ed2139c239d1e65a')
-    })
-    it('proof should be valid', function () {
-      assert.equal(merkleTools.validateProof(merkleTools.getProof(0), '6ed712b9472b671fd70bb950dc4ccfce197c92a7969f6bc2aa6b6d9f', '674bc9f53d5c666174cdd3ccb9df04768dfb7759655e7d937aef0c3a'), true)
-    })
-  })
-
-  describe('make SHA3-256 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA3-256' })
-    merkleTools.addLeaves([
-      '1d7d4ea1cc029ca460e486642830c284657ea0921235c46298b51f0ed1bb7bf7',
-      '89b9e14eae37e999b096a6f604adefe7feea4dc240ccecb5e4e92785cffc7070'
-    ])
-    merkleTools.makeTree()
-
-    it('merkle root value should be correct', function () {
-      assert.equal(merkleTools.getMerkleRoot().toString('hex'), '6edf674f5ce762e096c3081aee2a0a977732e07f4d704baf34f5e3804db03343')
-    })
-    it('proof array should be correct', function () {
-      assert.equal(merkleTools.getProof(0)[0].right, '89b9e14eae37e999b096a6f604adefe7feea4dc240ccecb5e4e92785cffc7070')
-    })
-    it('proof should be valid', function () {
-      assert.equal(merkleTools.validateProof(merkleTools.getProof(0), '1d7d4ea1cc029ca460e486642830c284657ea0921235c46298b51f0ed1bb7bf7', '6edf674f5ce762e096c3081aee2a0a977732e07f4d704baf34f5e3804db03343'), true)
-    })
-  })
-
-  describe('make SHA3-384 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA3-384' })
-    merkleTools.addLeaves([
-      'e222605f939aa69b964a0a03d7075676bb3dbb40c3bd10b22f0adcb149434e7c1085c206f0e3371470a49817aa6d5b16',
-      'ae331b6f8643ed7e404471c81be9a74f73fc84ffd5140a0ec9aa8596fa0d0a2ded5f7b780bb2fbfc4e2226ee2a04a2fa'
-    ])
-    merkleTools.makeTree()
-
-    it('merkle root value should be correct', function () {
-      assert.equal(merkleTools.getMerkleRoot().toString('hex'), 'bd54df0015fa0d4fee713fbf5c8ae232c93239c75fb9d41c7dd7a9278711764a6ee83c81766b3945ed94030254537b57')
-    })
-    it('proof array should be correct', function () {
-      assert.equal(merkleTools.getProof(0)[0].right, 'ae331b6f8643ed7e404471c81be9a74f73fc84ffd5140a0ec9aa8596fa0d0a2ded5f7b780bb2fbfc4e2226ee2a04a2fa')
-    })
-    it('proof should be valid', function () {
-      assert.equal(merkleTools.validateProof(merkleTools.getProof(0), 'e222605f939aa69b964a0a03d7075676bb3dbb40c3bd10b22f0adcb149434e7c1085c206f0e3371470a49817aa6d5b16', 'bd54df0015fa0d4fee713fbf5c8ae232c93239c75fb9d41c7dd7a9278711764a6ee83c81766b3945ed94030254537b57'), true)
-    })
-  })
-
-  describe('make SHA3-512 tree with 2 leaves', function () {
-    var merkleTools = new MerkleTools({ hashType: 'SHA3-512' })
-    merkleTools.addLeaves([
-      '004a237ea808cd9375ee9db9f85625948a890c54e2c30f736f54c969074eb56f0ff3d43dafb4b40d5d974acc1c2a68c046fa4d7c2c20cab6df956514040d0b8b',
-      '0b43a85d08c05252d0e23c96bc6b1bda11dfa787049ff452b3c86f4c6135e870c058c05131f199ef8619cfac937a736bbc936a667e4d96a5bf68e4056ce5fdce'
-    ])
-    merkleTools.makeTree()
-
-    it('merkle root value should be correct', function () {
-      assert.equal(merkleTools.getMerkleRoot().toString('hex'), '3dff3f19b67628591d294cba2c07ed20d20d83e1624af8c1dca8fcf096127b9f86435e2d6a84ca4cee526525cacd1c628bf06ee938983413afafbb4598c5862a')
-    })
-    it('proof array should be correct', function () {
-      assert.equal(merkleTools.getProof(0)[0].right, '0b43a85d08c05252d0e23c96bc6b1bda11dfa787049ff452b3c86f4c6135e870c058c05131f199ef8619cfac937a736bbc936a667e4d96a5bf68e4056ce5fdce')
-    })
-    it('proof should be valid', function () {
-      assert.equal(merkleTools.validateProof(merkleTools.getProof(0), '004a237ea808cd9375ee9db9f85625948a890c54e2c30f736f54c969074eb56f0ff3d43dafb4b40d5d974acc1c2a68c046fa4d7c2c20cab6df956514040d0b8b', '3dff3f19b67628591d294cba2c07ed20d20d83e1624af8c1dca8fcf096127b9f86435e2d6a84ca4cee526525cacd1c628bf06ee938983413afafbb4598c5862a'), true)
-    })
-  })
 })

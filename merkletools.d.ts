@@ -4,6 +4,7 @@ declare module 'merkle-tools' {
   class MerkleTree {
     constructor(options: { hashType: string });
 
+    hash(value: string): Buffer;
     getMerkleRoot(): Buffer | null;
     getProof(index: number): Proof<string>[] | null;
     getProof(index: number, asBinary: false): Proof<string>[] | null;

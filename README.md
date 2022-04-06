@@ -1,29 +1,27 @@
-# merkle-tools
+# hash-js-merkle-tools
 
 [![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-[![npm](https://img.shields.io/npm/l/merkle-tools.svg)](https://www.npmjs.com/package/merkle-tools)
-[![npm](https://img.shields.io/npm/v/merkle-tools.svg)](https://www.npmjs.com/package/merkle-tools)
+[![npm](https://img.shields.io/npm/l/hash-js-merkle-tools.svg)](https://www.npmjs.com/package/hash-js-merkle-tools)
+[![npm](https://img.shields.io/npm/v/hash-js-merkle-tools.svg)](https://www.npmjs.com/package/hash-js-merkle-tools)
 
 Tools for creating Merkle trees, generating merkle proofs, and verification of merkle proofs.
 
 ## Installation
 
 ```
-$ npm install --save merkle-tools
+$ npm install --save hash-js-merkle-tools
 ```
 
 ### Create MerkleTools Object
 
 ```js
-var MerkleTools = require('merkle-tools')
+var MerkleTools = require('hash-js-merkle-tools')
 
 var treeOptions = {
-  hashType: 'md5' // optional, defaults to 'sha256'
+  hashType: 'sha512' // optional, defaults to 'sha256'
 }
-// valid hashTypes include all crypto hash algorithms
-// such as 'MD5', 'SHA1', 'SHA224', 'SHA256', 'SHA384', 'SHA512'
-// as well as the SHA3 family of algorithms
-// including 'SHA3-224', 'SHA3-256', 'SHA3-384', and 'SHA3-512'
+// valid hashTypes include all crypto hash algorithms included in (hash.js)[https://www.npmjs.com/package/hash.js]
+// such as 'sha1', 'sha224', 'sha256', 'sha384', 'sha512'
 
 var merkleTools = new MerkleTools(treeOptions) // treeOptions is optional
 ```
@@ -177,7 +175,7 @@ The proof process uses all the proof objects in the array to attempt to prove a 
 ### Creating a tree and generating the proofs
 
 ```js
-var MerkleTools = require('merkle-tools')
+var MerkleTools = require('hash-js-merkle-tools')
 
 var merkleTools = new MerkleTools() // no options, defaults to sha-256 hash type
 

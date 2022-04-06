@@ -1,6 +1,6 @@
 {
-  "name": "merkle-tools",
-  "version": "1.4.1",
+  "name": "hash-js-merkle-tools",
+  "version": "1.4.2",
   "description": "Tools for creating merkle trees, generating merkle proofs, and verification of merkle proofs.",
   "main": "merkletools.js",
   "types": "merkletools.d.ts",
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Tierion/merkle-tools#readme",
   "dependencies": {
-    "js-sha3": "^0.8.0"
+    "hash.js":"^1.1.7"
   },
   "devDependencies": {
     "mocha": "^8.2.1"

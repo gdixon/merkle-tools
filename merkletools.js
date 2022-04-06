@@ -10,11 +10,7 @@
 * limitations under the License.
 */
 
-var sha3512 = require('js-sha3').sha3_512
-var sha3384 = require('js-sha3').sha3_384
-var sha3256 = require('js-sha3').sha3_256
-var sha3224 = require('js-sha3').sha3_224
-var crypto = require('crypto')
+var hashjs = require('hash.js')
 
 var MerkleTools = function (treeOptions) {
   // in case 'new' was omitted
@@ -30,18 +26,11 @@ var MerkleTools = function (treeOptions) {
   }
 
   var hashFunction = function (value) {
-    switch (hashType) {
-      case 'SHA3-224':
-        return Buffer.from(sha3224.array(value))
-      case 'SHA3-256':
-        return Buffer.from(sha3256.array(value))
-      case 'SHA3-384':
-        return Buffer.from(sha3384.array(value))
-      case 'SHA3-512':
-        return Buffer.from(sha3512.array(value))
-      default:
-        return crypto.createHash(hashType).update(value).digest()
-    }
+    // check for chosen hashType/default to sha256
+    const hashMethod = hashjs[hashType] || hashjs.sha256
+    
+    // return a Buffer of the hex
+    return Buffer.from(hashMethod().update(value).digest('hex'), 'hex')
   }
 
   var tree = {}
@@ -52,6 +41,12 @@ var MerkleTools = function (treeOptions) {
   /// /////////////////////////////////////////
   // Public Primary functions
   /// /////////////////////////////////////////
+
+  // Use the trees selected hashFunction to hash value
+  this.hash = function(value) {
+  
+    return hashFunction(value)
+  }
 
   // Resets the current tree to empty
   this.resetTree = function () {
