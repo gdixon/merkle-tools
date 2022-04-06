@@ -1,4 +1,4 @@
-declare module 'merkle-tools' {
+declare module 'hash-js-merkle-tools' {
   export type Proof<T> = { left: T } | { right: T };
 
   class MerkleTree {
