@@ -17,7 +17,7 @@ declare module 'hash-js-merkle-tools' {
     makeTree(doubleHash?: boolean): void;
     makeBTCTree(doubleHash?: boolean): void;
     validateProof(
-      proof: Proof<string | Buffer>,
+      proof: Proof<string | Buffer>[],
       targetHash: string | Buffer,
       merkleRoot: string | Buffer,
       doubleHash?: boolean,
